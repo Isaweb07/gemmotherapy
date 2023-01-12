@@ -1,0 +1,101 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Gemmotherapy
+            description: How to use gemmotherapy for health
+            version: 1.0.0
+        paths:
+            /api/gemmotherapies:
+                get:
+                    summary: Liste les bourgeons et jeunes pousses.
+            /api/admin/gemmotherapy:
+                post:
+                    summary: Crée un bourgeon (ou jeune pousse). Accès sécurisé.
+            /api/gemmotherapy/{id}:
+                get:
+                    summary: Retourne les informations d'un bourgeon (ou d'une jeune pousse).
+            /api/admin/gemmotherapy/{id}:
+                put:
+                    summary: Réécrit les informations d'un bourgeon (ou d'une jeune pousse). Accès sécurisé.
+                delete:
+                    summary: Supprime un bourgeon (ou jeune pousse). Accès sécurisé.
+                patch:
+                    summary: Modifie les informations d'un bourgeon (ou d'une jeune pousse). Accès sécurisé.
+            /api/posologies:
+                get:
+                    summary: Liste les posologies.
+            /api/admin/posology:
+                post:
+                    summary: Crée une posologie. Accès sécurisé.
+            /api/posology/{id}:
+                get:
+                    summary: Retourne les informations d'une posologie.
+            /api/admin/posology/{id}:
+                put:
+                    summary: Réécrit les informations d'une posologie. Accès sécurisé.
+                delete:
+                    summary: Supprime une posologie. Accès sécurisé.
+                patch:
+                    summary: Modifie les informations d'une posologie. Accès sécurisé.
+            /api/treatments:
+                get:
+                    summary: Liste les traitements.
+            /api/admin/treatment:
+                post:
+                    summary: Crée un traitement. Accès sécurisé.  
+            /api/treatment/{id}:
+                get:
+                    summary: Retourne les informations d'un traitement.
+            /api/admin/treatment/{id}:
+                put:
+                    summary: Réécrit les informations d'une traitement. Accès sécurisé.
+                delete:
+                    summary: Supprime un traitement. Accès sécurisé.
+                patch:
+                    summary: Modifie les informations d'un traitement. Accès sécurisé.        
+            /api/login_check:
+                post:
+                    operationId: postCredentialsItem
+                    tags:
+                        - Token
+                    summary: Permet d'obtenir le token JWT pour se logger.
+                    requestBody:
+                        description: Crée un nouveau token JWT
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/Credentials'
+                    responses:
+                        '200':
+                            description: Récupère le token JWT
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/Token'
+        components:
+            schemas:
+                Token:
+                    type: object
+                    properties:
+                        token:
+                            type: string
+                            readOnly: true
+                Credentials:
+                    type: object
+                    properties:
+                        username:
+                            type: string
+                            default: admin
+                        password:
+                            type: string
+                            default: password
+            securitySchemes:
+                bearerAuth:
+                    type: apiKey
+                    in: header
+                    name: Authorization # or another header name
+        security:
+            - bearerAuth: []
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
